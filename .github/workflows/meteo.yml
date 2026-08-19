@@ -1,0 +1,26 @@
+name: Invio Meteo Giornaliero
+
+on:
+  # Permette di avviarlo a mano con un pulsante per provarlo subito
+  workflow_dispatch:
+  # Lo attiva ogni mattina alle 07:00 ora italiana (05:00 UTC)
+  schedule:
+    - cron: '0 5 * * *'
+
+jobs:
+  invio-meteo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica il codice del repository
+        uses: actions/checkout@v4
+
+      - name: Configura Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Installa la libreria requests
+        run: pip install requests
+
+      - name: Esegui lo script del meteo
+        run: python meteo.py
